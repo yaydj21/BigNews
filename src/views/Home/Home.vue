@@ -3,7 +3,7 @@
     <!-- 头部 navbar搜索框 -->
     <van-nav-bar nav-bar-background-color="blue">
       <template #left>
-        <img src="@/imgs/toutiao_logo.png" alt="" class="logo" />
+        <!-- <img src="@/imgs/toutiao_logo.png" alt="" class="logo" /> -->
       </template>
       <template #right>
         <van-icon name="search" size="18" />
