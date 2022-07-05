@@ -3,17 +3,13 @@
     <van-nav-bar title="文章详情" left-arrow @click-left="$router.back()" />
     <div class="article-container">
       <!-- 标题 -->
-      <h1 class="art-title">{{title}}</h1>
+      <h1 class="art-title">{{ title }}</h1>
 
       <!-- 用户信息 -->
       <van-cell center :title="aut_name" :label="pubdate">
         <template #icon>
           <!-- 头像 -->
-          <img
-            :src="aut_photo"
-            alt=""
-            class="avatar"
-          />
+          <img :src="aut_photo" alt="" class="avatar" />
         </template>
       </van-cell>
 
@@ -31,35 +27,58 @@
 </template>
 
 <script>
-import { getArticleDetailAPI } from "@/api/articleAPI";
+import {
+  getArticleDetailAPI,
+  getFunArticleDetailAPI,
+  getGameArticleDetailAPI,
+  getSportsArticleDetailAPI,
+} from "@/api/articleAPI";
 export default {
   name: "ArticleDetail",
   props: ["id"],
   data() {
     return {
-      articlesArr:[],
-      title:'',
-      aut_name:'',
-      aut_photo:'',
-      content:'',
-      pubdate:''
+      articlesArr: [],
+      title: "",
+      aut_name: "",
+      aut_photo: "",
+      content: "",
+      pubdate: "",
     };
   },
   methods: {
-    async initArticle(){
-      const data = await getArticleDetailAPI(this.id);
-      if(data.data.message == "ok"){
+    async initArticle() {
+      // 通过路由传过来的值 判断是tab是哪个类型 初始化对应的数据
+      if (this.$route.query.name === "article") {
+        const data = await getArticleDetailAPI(this.id);
+        this.dataOk(data);
+      }
+      if (this.$route.query.name === "funArticle") {
+        const data = await getFunArticleDetailAPI(this.id);
+        this.dataOk(data);
+      }
+      if (this.$route.query.name === "GameArticle") {
+        const data = await getGameArticleDetailAPI(this.id);
+        this.dataOk(data);
+      }
+      if (this.$route.query.name === "sportsArticle") {
+        const data = await getSportsArticleDetailAPI(this.id);
+        this.dataOk(data);
+      }
+    },
+    dataOk(data) {
+      if (data.data.message == "ok") {
         this.title = data.data.data[0].title;
         this.aut_name = data.data.data[0].aut_name;
         this.aut_photo = data.data.data[0].aut_photo;
         this.content = data.data.data[0].content;
         this.pubdate = data.data.data[0].pubdate;
       }
-    }
+    },
   },
-  created(){
+  created() {
     this.initArticle();
-  }
+  },
 };
 </script>
 

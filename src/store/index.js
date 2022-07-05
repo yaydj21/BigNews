@@ -32,6 +32,11 @@ export default new Vuex.Store({
             state.userInfo = info;
             this.commit('saveStateToStorage');
         },
+        cleanState(state){
+            state.tokenInfo = {};
+            state.userInfo = {};
+            this.commit('saveStateToStorage');
+        },
         // 把token储存到本地
         saveStateToStorage(state){
             localStorage.setItem('state',JSON.stringify(state));

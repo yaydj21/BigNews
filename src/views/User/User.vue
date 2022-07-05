@@ -6,7 +6,7 @@
       <van-cell>
         <!-- 使用 title 插槽来自定义标题 -->
         <template #icon>
-          <img src="" alt="" class="avatar">
+          <img :src="userInfo.user_pic" alt="" class="avatar">
         </template>
         <template #title>
           <span class="username">{{userInfo.nickname}}</span>
@@ -35,20 +35,35 @@
     <!-- 操作面板 -->
     <van-cell-group class="action-card">
       <van-cell icon="edit" title="编辑资料" is-link />
-      <van-cell icon="warning-o" title="退出登录" is-link />
+      <van-cell icon="warning-o" title="退出登录" is-link @click="logout"/>
     </van-cell-group>
   </div>
 </template>
 
 <script>
-import { mapState,mapActions } from 'vuex';
+import { mapState,mapActions,mapMutations } from 'vuex';
 export default {
   name:'user',
   created(){
     this.initUserInfo();
   },
   methods:{
-    ...mapActions(['initUserInfo'])
+    ...mapActions(['initUserInfo']),
+    ...mapMutations(['cleanState']),
+    async logout(){
+      const confirmResult = await this.$dialog.confirm({
+        title:'提示',
+        message:'确定要退出吗？'
+      }).catch(err =>{
+        console.log(err);
+        return err;
+      });
+      if(confirmResult === 'cancel'){
+        return
+      }
+      this.cleanState();
+      this.$router.push('/login');
+    }
   },
   computed:{
     ...mapState(['userInfo'])

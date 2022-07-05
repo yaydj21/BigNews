@@ -14,6 +14,9 @@ const routes = [
   {path:'/',component: Home},
   {path:'/user',component: User},
   {path:'/article/:id',component:ArticleDetail, props:true},
+  {path:'/funArticle/:id',component:ArticleDetail, props:true},
+  {path:'/GameArticle/:id',component:ArticleDetail, props:true},
+  {path:'/sportsArticle/:id',component:ArticleDetail, props:true},
   {path:'/login',component:Login},
 ]
 
