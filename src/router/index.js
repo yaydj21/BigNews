@@ -11,13 +11,13 @@ import Login from '@/views/Login/Login';
 Vue.use(VueRouter)
 
 const routes = [
-  {path:'/',component: Home},
-  {path:'/user',component: User},
-  {path:'/article/:id',component:ArticleDetail, props:true},
-  {path:'/funArticle/:id',component:ArticleDetail, props:true},
-  {path:'/GameArticle/:id',component:ArticleDetail, props:true},
-  {path:'/sportsArticle/:id',component:ArticleDetail, props:true},
-  {path:'/login',component:Login},
+  { path: '/', component: () => import('@/views/Home/Home') },
+  { path: '/user', component: () => import('@/views/User/User') },
+  { path: '/article/:id', component: () => import('@/views/ArticleDetail/ArticleDetail'), props: true },
+  { path: '/funArticle/:id', component: () => import('@/views/ArticleDetail/ArticleDetail'), props: true },
+  { path: '/GameArticle/:id', component: () => import('@/views/ArticleDetail/ArticleDetail'), props: true },
+  { path: '/sportsArticle/:id', component: () => import('@/views/ArticleDetail/ArticleDetail'), props: true },
+  { path: '/login', component: () => import('@/views/Login/Login') },
 ]
 
 const router = new VueRouter({
@@ -25,17 +25,17 @@ const router = new VueRouter({
 })
 
 // 路由守卫
-router.beforeEach((to,from,next) =>{
+router.beforeEach((to, from, next) => {
   // 如果要访问用户页面 要先判断是否登录
-  if(to.path === '/user'){
+  if (to.path === '/user') {
     const token = localStorage.getItem('state');
     // 没有token值就要求用户先去登录
-    if(token){
+    if (token) {
       next();
-    }else{
+    } else {
       next('/login');
     }
-  }else{
+  } else {
     next();
   }
   next();

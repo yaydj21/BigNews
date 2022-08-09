@@ -28,35 +28,41 @@
 
 <script>
 import { loginAPI } from "@/api/userAPI";
-import { mapMutations } from 'vuex';
+import { mapMutations } from "vuex";
 export default {
   name: "Login",
   data() {
     return {
       // 表单数据
       form: {
-        username: "",
-        password: "",
+        username: "admin",
+        password: "666666",
       },
       // 验证表单规则
-      rules:{
-        username:[{required:true,message:'请输入账号',trigger:'onBlur'}],
-        password:[{required:true,message:'请输入密码',trigger:'onBlur'}]
-      }
+      rules: {
+        username: [
+          { required: true, message: "请输入账号", trigger: "onBlur" },
+        ],
+        password: [
+          { required: true, message: "请输入密码", trigger: "onBlur" },
+        ],
+      },
     };
   },
   methods: {
-  ...mapMutations(['updateTokenInfo']),
-  async login() {
-    const {data : res} = await loginAPI( this.form);
+    ...mapMutations(["updateTokenInfo"]),
+    async login() {
+      const { data: res } = await loginAPI(this.form);
 
-    if(res.status === 0){
-      // 通过vuex中的Mutations更新token信息
-      this.updateTokenInfo(res.token);
-      this.$router.push('/user');
-    }
-  }
+      if (res.status === 0) {
+        // 通过vuex中的Mutations更新token信息
+        this.updateTokenInfo(res.token);
+        this.$router.push("/user");
+      }
+    },
   },
+  created(){
+  }
 };
 </script>
 
